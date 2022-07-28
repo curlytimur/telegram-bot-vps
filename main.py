@@ -51,5 +51,5 @@ def telegram_bot(token):
     bot.polling()
 
 if __name__ == '__main__':
-    get_data()
+    # get_data()
     telegram_bot(token)
