@@ -14,13 +14,36 @@ def get_data():
 
 
 BUTTONS = ["BTC", "ETH", "XRP"]
+USER_DB = {}
+
+# if USER_DB.get(chat_id, None) is None:
+#     USER_DB[chat_id] = {}
+# USER_DB[chat_id]["name"] = message.text
+
 
 def telegram_bot(token):
     bot = telebot.TeleBot(token)
+# name = int(input('What is you name?'))
+# last_name = int(input('What is you last name?'))
+# date_of_birth = int(input('When you HB'))
 
 
     @bot.message_handler(commands=["start"])
-    def str_hi(hi):
+    def str_name(message):
+        msg = bot.send_message(message.chat.id, "What is you name?")
+        bot.register_next_step_handler(msg, str_last_name)
+
+
+    def str_last_name(message):
+        msg = bot.send_message(message.chat.id, "What is you last name?")
+        bot.register_next_step_handler(msg, str_HB)
+
+    def str_HB(message):
+        msg = bot.send_message(message.chat.id, "When you birthday?")
+
+
+    @bot.message_handler(commands=["price"])
+    def str_pr(price):
 
         keyboard = types.ReplyKeyboardMarkup()
         for button_text in BUTTONS:
@@ -34,7 +57,9 @@ def telegram_bot(token):
         # keyboard.add(button_3)
         # button_2 = "help"
         # keyboard.add(button_2)
-        bot.send_message(hi.chat.id, "Hello friend! Write the 'price' to find out the cost of BTC or ETH", reply_markup=keyboard)
+        bot.send_message(price.chat.id, "Hello friend! Write the 'price' to find out the cost of BTC or ETH", reply_markup=keyboard)
+
+
 
     def check_message(msg):
         msg_text = msg.text
