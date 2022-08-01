@@ -15,6 +15,7 @@ def get_data():
 
 BUTTONS = ["BTC", "ETH", "XRP"]
 USER_DB = {}
+n
 
 # if USER_DB.get(chat_id, None) is None:
 #     USER_DB[chat_id] = {}
@@ -23,15 +24,22 @@ USER_DB = {}
 
 def telegram_bot(token):
     bot = telebot.TeleBot(token)
-# name = int(input('What is you name?'))
-# last_name = int(input('What is you last name?'))
-# date_of_birth = int(input('When you HB'))
 
 
     @bot.message_handler(commands=["start"])
+
+    def put_username(chatID, name):
+        userInstance = USER_DB.get(chatID, {})
+        userInstance['name'] = name
+        USER_DB[chatID] = userInstance
+
+
     def str_name(message):
         msg = bot.send_message(message.chat.id, "What is you name?")
         bot.register_next_step_handler(msg, str_last_name)
+
+
+
 
 
     def str_last_name(message):
@@ -39,7 +47,14 @@ def telegram_bot(token):
         bot.register_next_step_handler(msg, str_HB)
 
     def str_HB(message):
-        msg = bot.send_message(message.chat.id, "When you birthday?")
+        msg = bot.send_message(message.chat.id, "How old are you?")
+
+
+    def put_userename(chatID, name):
+        userInstance = USER_DB.get(chatID, {})
+        userInstance['name'] = name
+        USER_DB[chatID] = userInstance
+
 
 
     @bot.message_handler(commands=["price"])
